@@ -1,27 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A Thousand Days – by Devansh & Roshni</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ffe5f8, #eaf2ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #444;
-      position: relative;
-    }
+<body>
+  <!-- Intro Animation -->
+  <div id="intro">
+    <div id="dateDisplay"></div>
+    <div id="sparkle"></div>
+  </div>
 
-    /* Intro (Date Animation) */
+  <!-- Main Website -->
+  <div id="main" style="display:none;">
+    <div class="card">
+      <h1>A Thousand Days</h1>
+      <h2>by Devansh & Roshni</h2>
+      <p>
+        A journey that began on <b>25 February 2023</b> and blossoms till <b>20 November 2025</b> —
+        a thousand moments of love, laughter, and togetherness.
+      </p>
+      <a href="Chapter1.pdf" download>💗 Read Chapter One</a>
+      <footer>© 2025 A Thousand Days</footer>
+    </div>
+  </div>
+
+  <style>
+    /* 🌸 Intro Section */
     #intro {
       position: fixed;
       top: 0;
@@ -32,37 +31,35 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at center, #1a1a1a, #000);
-      color: #ffb3d9;
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5em;
-      letter-spacing: 1px;
-      z-index: 9999;
+      background: linear-gradient(135deg, #ffe6eb, #ffd6e8, #fff0f5);
+      color: #d63384;
+      font-family: "Playfair Display", serif;
       overflow: hidden;
+      z-index: 9999;
       transition: opacity 1.5s ease;
     }
 
     #dateDisplay {
-      animation: slideDown 0.8s ease-in-out;
-      text-shadow: 0 0 15px #ff6fa0, 0 0 35px #ff6fa0;
+      font-size: 2.8em;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: slideUp 0.6s ease forwards;
+      text-shadow: 0 2px 10px rgba(255, 150, 200, 0.8);
     }
 
-    @keyframes slideDown {
-      0% {
+    @keyframes slideUp {
+      from {
         opacity: 0;
-        transform: translateY(-40px);
+        transform: translateY(50px);
       }
-      50% {
+      to {
         opacity: 1;
         transform: translateY(0);
       }
-      100% {
-        opacity: 0;
-        transform: translateY(40px);
-      }
     }
 
-    /* Sparkle Burst */
+    /* Sparkle burst */
     #sparkle {
       position: absolute;
       width: 100%;
@@ -74,129 +71,100 @@
 
     .spark {
       position: absolute;
-      font-size: 18px;
-      color: #ffb3d9;
-      animation: sparkleMove 1.3s ease-out forwards;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle, #fff, #ff80b5);
+      border-radius: 50%;
+      animation: sparkleMove 1s ease-out forwards;
       opacity: 0.8;
     }
 
     @keyframes sparkleMove {
-      from { transform: scale(1); opacity: 1; }
-      to { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+      from {
+        transform: scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translate(var(--x), var(--y)) scale(0);
+        opacity: 0;
+      }
     }
 
-    /* Main Website */
+    /* 🌷 Main Website */
     #main {
-      display: none;
-      flex-direction: column;
-      align-items: center;
+      display: flex;
       justify-content: center;
+      align-items: center;
       height: 100vh;
-      animation: fadeIn 2s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      background: linear-gradient(120deg, #ffe6eb, #fff0f7, #ffe1f0);
+      font-family: "Poppins", sans-serif;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.92);
-      padding: 60px 50px;
-      border-radius: 24px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-      max-width: 560px;
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
+      border-radius: 25px;
+      box-shadow: 0 8px 25px rgba(255, 150, 200, 0.3);
       text-align: center;
-      position: relative;
-      z-index: 2;
+      padding: 3em;
+      width: 80%;
+      max-width: 500px;
+      color: #444;
+      animation: fadeIn 2s ease forwards;
     }
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.6em;
-      color: #ff5fa2;
-      margin-bottom: 0.2em;
+    .card h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 2.2em;
+      color: #c2185b;
     }
 
-    h2 {
-      font-family: 'Poppins', sans-serif;
+    .card h2 {
+      color: #ec407a;
+      margin-top: -0.3em;
       font-weight: 400;
       font-style: italic;
-      font-size: 1.1em;
-      color: #777;
-      margin-bottom: 1.5em;
     }
 
-    p {
+    .card p {
+      margin: 1.5em 0;
+      line-height: 1.6em;
       font-size: 1.05em;
-      color: #555;
-      margin-bottom: 2em;
-      line-height: 1.6;
     }
 
-    a {
-      display: inline-block;
-      padding: 14px 34px;
-      background: linear-gradient(135deg, #ff6fb0, #ff99cc);
-      color: white;
-      border-radius: 12px;
+    .card a {
       text-decoration: none;
-      font-weight: 500;
-      font-size: 1.05em;
+      color: white;
+      background: linear-gradient(90deg, #ff6fa8, #ff8fcf);
+      padding: 0.8em 1.6em;
+      border-radius: 30px;
+      font-weight: 600;
       transition: all 0.3s ease;
-      box-shadow: 0 3px 14px rgba(255, 100, 150, 0.3);
+      box-shadow: 0 4px 15px rgba(255, 120, 180, 0.4);
     }
 
-    a:hover {
-      background: linear-gradient(135deg, #ff479b, #ff8cbf);
+    .card a:hover {
       transform: scale(1.05);
-      box-shadow: 0 5px 20px rgba(255, 90, 150, 0.4);
+      background: linear-gradient(90deg, #ff4d94, #ff75b9);
     }
 
     footer {
-      margin-top: 2em;
-      font-size: 0.9em;
+      margin-top: 1.5em;
+      font-size: 0.85em;
       color: #999;
     }
 
-    /* Floating Hearts */
-    .heart {
-      position: absolute;
-      color: #ff6fa0;
-      font-size: 18px;
-      animation: float 6s linear infinite;
-      opacity: 0.6;
-      z-index: 1;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
   </style>
-</head>
-<body>
-  <!-- Intro Animation -->
-  <div id="intro">
-    <div id="dateDisplay"></div>
-    <div id="sparkle"></div>
-  </div>
-
-  <!-- Main Website -->
-  <div id="main">
-    <div class="card">
-      <h1>A Thousand Days</h1>
-      <h2>by Devansh & Roshni</h2>
-      <p>
-        From the first day to the thousandth —<br>
-        every laugh, tear, and moment led us here.<br>
-        This is where our story begins again.
-      </p>
-      <a href="Chapter1.pdf" download>💗 Read Chapter One</a>
-      <footer>© 2025 A Thousand Days</footer>
-    </div>
-  </div>
 
   <script>
     const startDate = new Date("2023-02-25");
@@ -210,13 +178,16 @@
     let speed = 40;
 
     function updateDate() {
-      const day = String(current.getDate()).padStart(2, '0');
-      const month = current.toLocaleString('default', { month: 'short' });
+      const day = String(current.getDate()).padStart(2, "0");
+      const month = current.toLocaleString("default", { month: "short" });
       const year = current.getFullYear();
-      dateDisplay.textContent = `${day} ${month} ${year}`;
-      dateDisplay.style.animation = 'none';
+
+      // Animate slide-up effect each time
+      dateDisplay.style.animation = "none";
       void dateDisplay.offsetWidth;
-      dateDisplay.style.animation = 'slideDown 0.8s ease-in-out';
+      dateDisplay.style.animation = "slideUp 0.6s ease forwards";
+
+      dateDisplay.textContent = `${day} ${month} ${year}`;
 
       if (current < endDate) {
         current.setDate(current.getDate() + 5);
@@ -227,7 +198,6 @@
         for (let i = 0; i < 40; i++) {
           const spark = document.createElement("div");
           spark.classList.add("spark");
-          spark.textContent = "💖";
           const x = (Math.random() - 0.5) * 500 + "px";
           const y = (Math.random() - 0.5) * 500 + "px";
           spark.style.setProperty("--x", x);
@@ -235,7 +205,7 @@
           spark.style.left = "50%";
           spark.style.top = "50%";
           sparkleContainer.appendChild(spark);
-          setTimeout(() => spark.remove(), 1300);
+          setTimeout(() => spark.remove(), 1000);
         }
         setTimeout(() => {
           intro.style.opacity = "0";
@@ -248,17 +218,5 @@
     }
 
     updateDate();
-
-    // Floating hearts on main screen
-    setInterval(() => {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.textContent = '💖';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (4 + Math.random() * 3) + 's';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 6000);
-    }, 700);
   </script>
 </body>
-</html>
