@@ -4,29 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>A Thousand Days – Chapter One~</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
       height: 100vh;
       overflow: hidden;
-      font-family: 'Georgia', serif;
-      background: radial-gradient(circle at top left, #ffe6f2, #e0f7ff);
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe5f8, #e6f0ff);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       text-align: center;
+      position: relative;
+      color: #444;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 50px 40px;
+      border-radius: 24px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
       z-index: 2;
-      animation: fadeIn 2s ease;
-      max-width: 500px;
+      animation: fadeIn 1.5s ease;
+      max-width: 520px;
+      backdrop-filter: blur(6px);
     }
 
     @keyframes fadeIn {
@@ -35,100 +38,75 @@
     }
 
     h1 {
-      font-size: 2em;
-      color: #444;
-      margin-bottom: 10px;
-      white-space: nowrap;
-      border-right: 3px solid #ff5fa2;
-      width: 0;
-      overflow: hidden;
-      animation: typing 4s steps(20) 1s forwards, blink 0.8s infinite;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4em;
+      color: #ff5fa2;
+      margin-bottom: 0.3em;
+      letter-spacing: 1px;
     }
 
-    @keyframes typing {
-      to { width: 100%; }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-
-    p {
-      color: #666;
+    h2 {
+      font-weight: 400;
       font-style: italic;
-      margin: 10px 0 20px 0;
-      opacity: 0;
-      animation: fadeText 2s ease 4s forwards;
+      font-size: 1.1em;
+      color: #777;
+      margin-bottom: 1.5em;
     }
 
-    @keyframes fadeText {
-      to { opacity: 1; }
-    }
-
-    a, button {
+    a {
       display: inline-block;
-      padding: 12px 24px;
-      background-color: #ff5fa2;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #ff6fb0, #ff99cc);
       color: white;
-      border-radius: 8px;
-      border: none;
+      border-radius: 10px;
       text-decoration: none;
-      transition: background 0.3s ease;
-      font-weight: bold;
-      margin: 5px;
-      cursor: pointer;
-      opacity: 0;
-      animation: fadeText 2s ease 6s forwards;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 12px rgba(255, 100, 150, 0.3);
     }
 
-    a:hover, button:hover {
-      background-color: #ff3380;
+    a:hover {
+      background: linear-gradient(135deg, #ff479b, #ff8cbf);
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(255, 90, 150, 0.4);
     }
 
     footer {
-      margin-top: 20px;
+      margin-top: 2em;
       font-size: 0.9em;
       color: #999;
-      opacity: 0;
-      animation: fadeText 2s ease 7s forwards;
     }
 
     /* Floating hearts */
     .heart {
       position: absolute;
-      color: #ff5fa2;
-      font-size: 20px;
+      color: #ff6fa0;
+      font-size: 18px;
       animation: float 6s linear infinite;
       opacity: 0.6;
+      z-index: 1;
     }
 
     @keyframes float {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) scale(1.5);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <audio id="bg-music" loop>
-    <source src="https://cdn.pixabay.com/audio/2023/03/08/audio_9d36651fa1.mp3" type="audio/mpeg">
-  </audio>
-
   <div class="card">
     <h1>A THOUSAND DAYS</h1>
-    <p>By Roshni & Devansh~</p>
-    <button onclick="toggleMusic()">🎵 Play Music</button>
-    <a href="Chapter1.pdf" download>💞 Download First Chapter</a>
+    <h2>by Roshni & Devansh~</h2>
+    <p style="font-size:1.05em; color:#555; margin-bottom:2em;">
+      A journey of love, time, and a thousand moments woven together.<br>
+      Step into the story that started it all — Chapter One awaits.
+    </p>
+    <a href="Chapter1.pdf" download>💗 Read Chapter One</a>
     <footer>© 2025 A Thousand Days</footer>
   </div>
 
   <script>
-    // Floating hearts animation
+    // Floating hearts
     setInterval(() => {
       const heart = document.createElement('div');
       heart.classList.add('heart');
@@ -137,23 +115,7 @@
       heart.style.animationDuration = (4 + Math.random() * 3) + 's';
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 6000);
-    }, 500);
-
-    // Music toggle
-    const audio = document.getElementById('bg-music');
-    let isPlaying = false;
-
-    function toggleMusic() {
-      if (isPlaying) {
-        audio.pause();
-        isPlaying = false;
-        event.target.textContent = "🎵 Play Music";
-      } else {
-        audio.play();
-        isPlaying = true;
-        event.target.textContent = "⏸ Pause Music";
-      }
-    }
+    }, 600);
   </script>
 </body>
 </html>
