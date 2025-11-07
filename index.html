@@ -6,35 +6,65 @@
   <title>A Thousand Days – Chapter One</title>
   <style>
     body {
-      font-family: 'Georgia', serif;
-      background: linear-gradient(135deg, #ffe6f2, #e0f7ff);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
-      text-align: center;
+      padding: 0;
+      height: 100vh;
       overflow: hidden;
+      font-family: 'Georgia', serif;
+      background: radial-gradient(circle at top left, #ffe6f2, #e0f7ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
     }
+
     .card {
-      background: white;
+      background: rgba(255, 255, 255, 0.9);
       padding: 40px;
       border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      max-width: 500px;
-      position: relative;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
       z-index: 2;
+      animation: fadeIn 2s ease;
+      max-width: 500px;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     h1 {
-      color: #444;
       font-size: 2em;
+      color: #444;
+      margin-bottom: 10px;
+      white-space: nowrap;
+      border-right: 3px solid #ff5fa2;
+      width: 0;
+      overflow: hidden;
+      animation: typing 4s steps(20) 1s forwards, blink 0.8s infinite;
     }
+
+    @keyframes typing {
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
     p {
       color: #666;
       font-style: italic;
-      margin-bottom: 20px;
+      margin: 10px 0 20px 0;
+      opacity: 0;
+      animation: fadeText 2s ease 4s forwards;
     }
+
+    @keyframes fadeText {
+      to { opacity: 1; }
+    }
+
     a {
       display: inline-block;
       padding: 12px 24px;
@@ -43,16 +73,24 @@
       border-radius: 8px;
       text-decoration: none;
       transition: background 0.3s ease;
+      font-weight: bold;
+      opacity: 0;
+      animation: fadeText 2s ease 6s forwards;
     }
+
     a:hover {
       background-color: #ff3380;
     }
+
     footer {
       margin-top: 20px;
       font-size: 0.9em;
       color: #999;
+      opacity: 0;
+      animation: fadeText 2s ease 7s forwards;
     }
-    /* Floating hearts animation */
+
+    /* Floating hearts */
     .heart {
       position: absolute;
       color: #ff5fa2;
@@ -60,6 +98,7 @@
       animation: float 6s linear infinite;
       opacity: 0.6;
     }
+
     @keyframes float {
       0% {
         transform: translateY(0) scale(1);
@@ -73,15 +112,19 @@
   </style>
 </head>
 <body>
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/audio/2023/03/08/audio_9d36651fa1.mp3" type="audio/mpeg">
+  </audio>
+
   <div class="card">
-    <h1>🌸 A Thousand Days 🌸</h1>
+    <h1>A Thousand Days</h1>
     <p>By Devansh & Roshni</p>
-    <a href="Chapter1.pdf" download>❤️ Download First Chapter</a>
+    <a href="Chapter1.pdf" download>💞 Download First Chapter</a>
     <footer>© 2025 A Thousand Days</footer>
   </div>
 
   <script>
-    // Floating hearts
+    // Floating hearts animation
     setInterval(() => {
       const heart = document.createElement('div');
       heart.classList.add('heart');
