@@ -1,17 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>A Thousand Days — Chapter One</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent-1: #ff6fb0;
+      --accent-2: #ff9ccf;
+      --muted: #6b6b6b;
+      --card-bg: rgba(255,255,255,0.92);
+      --glass: rgba(255,255,255,0.6);
+    }
+
+    html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;color:#222;}
+    body{
+      background: linear-gradient(120deg,#fff5f9 0%, #fff9fb 40%, #f2f8ff 100%);
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px;
+      box-sizing:border-box;
+      overflow-y:auto;
+    }
+
+    /* Page container (center card) */
+    .wrapper{
+      width:100%;
+      max-width:980px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap:36px;
+      align-items:center;
+      animation: pageEntrance 700ms ease both;
+    }
+
+    @keyframes pageEntrance{
+      from{opacity:0; transform:translateY(18px) scale(.995);}
+      to{opacity:1; transform:translateY(0) scale(1);}
+    }
+
+    /* Left: cover / visual */
+    .cover {
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+      border-radius:18px;
+      padding:26px;
+      box-shadow: 0 10px 30px rgba(17,17,17,0.08);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:18px;
+      backdrop-filter: blur(6px);
+    }
+
+    .cover-image{
+      width:100%;
+      max-width:320px;
+      aspect-ratio: 3/4;
+      border-radius:12px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.02)),
+        url('') center/cover no-repeat;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 8px 26px rgba(200,100,150,0.12);
+    }
+
+    /* placeholder cover styling — replace background-url above with your cover image link if you have one */
+    .cover-image .title {
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
+      width:100%;
+      padding:10px;
+      border-radius:8px;
+      color:white;
+      font-family:'Playfair Display',serif;
+      font-size:1.05rem;
+      text-align:center;
+      letter-spacing:0.6px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+
+    .meta {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      font-size:0.95rem;
+      color:var(--muted);
+    }
+
+    .meta .badge {
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      color:white;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:600;
+      box-shadow: 0 6px 18px rgba(255,120,170,0.14);
+    }
+
+    /* Right: content */
+    .content {
+      background: var(--card-bg);
+      border-radius:18px;
+      padding:34px;
+      box-shadow: 0 10px 30px rgba(17,17,17,0.06);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      min-height: 320px;
+    }
+
+    .title-main{
+      font-family:'Playfair Display',serif;
+      font-size:2.1rem;
+      color:#c8216b;
+      margin:0;
+      letter-spacing:0.6px;
+    }
+
+    .subtitle{
+      margin:0;
+      color:#b83f74;
+      font-style:italic;
+      font-weight:400;
+    }
+
+    .description{
+      color:#444;
+      line-height:1.7;
+      margin-top:6px;
+      font-size:1rem;
+    }
+
+    .info-row{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:8px;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    .cta-row{
+      margin-top:12px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:600;
+      text-decoration:none;
+      cursor:pointer;
+      border:none;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+
+    .btn-primary{
+      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      color:white;
+      box-shadow: 0 8px 24px rgba(255,110,160,0.18);
+    }
+
+    .btn-ghost{
+      background: transparent;
+      border: 1px solid rgba(200,100,140,0.12);
+      color:#8a2b58;
+    }
+
+    .btn:hover{ transform: translateY(-4px); }
+    .btn:active{ transform: translateY(-1px); }
+
+    /* subtle ornament hearts in background */
+    .bg-hearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      overflow:hidden;
+    }
+    .bg-hearts .h{
+      position:absolute;
+      font-size:18px;
+      opacity:0.08;
+      transform:translateY(0);
+      animation: driftUp linear infinite;
+      color:#ff6fa8;
+      filter: blur(.6px);
+    }
+    @keyframes driftUp{
+      from{ transform: translateY(30vh) scale(1); opacity:0.08; }
+      to{ transform: translateY(-30vh) scale(1.1); opacity:0.02; }
+    }
+
+    /* modal styles */
+    .modal-backdrop{
+      position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+      background: rgba(10,10,10,0.45); z-index:99999;
+      padding:28px;
+    }
+    .modal{
+      width:100%;
+      max-width:920px;
+      height:80vh;
+      background:white;
+      border-radius:12px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.25);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .modal .modal-head{
+      display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid #f1f1f1;
+    }
+    .modal iframe{
+      flex:1; border:0; width:100%;
+    }
+    .close-btn{ background:transparent; border:0; font-size:1rem; cursor:pointer; color:#666; }
+
+    /* tiny responsive adjustments */
+    @media (max-width:880px){
+      .wrapper{ grid-template-columns:1fr; padding:12px; gap:18px; }
+      .cover-image{ max-width:240px; }
+    }
+  </style>
+</head>
 <body>
-  <!-- Main Website -->
-  <div id="main" style="display:none;">
-    <div class="card">
-      <h1>A Thousand Days</h1>
-      <h2>by Devansh & Roshni</h2>
-      <p>
-        A journey that began on <b>25 February 2023</b> and blossoms till <b>20 November 2025</b> —
-        a thousand moments of love, laughter, and togetherness.
+
+  <div class="bg-hearts" aria-hidden="true">
+    <!-- subtle decorative hearts -->
+    <div class="h" style="left:8%; top:65%; animation-duration:24s;">💗</div>
+    <div class="h" style="left:22%; top:78%; animation-duration:30s;">💗</div>
+    <div class="h" style="left:60%; top:72%; animation-duration:28s;">💗</div>
+    <div class="h" style="left:80%; top:60%; animation-duration:32s;">💗</div>
+    <div class="h" style="left:45%; top:85%; animation-duration:36s;">💗</div>
+  </div>
+
+  <main class="wrapper" role="main" aria-labelledby="main-title">
+    <!-- left: cover -->
+    <aside class="cover" aria-hidden="false">
+      <div class="cover-image" id="coverImage">
+        <!-- If you have a cover image, set it as background-image via JS or inline style -->
+        <div class="title">A Thousand Days</div>
+      </div>
+
+      <div class="meta" aria-hidden="true">
+        <div class="badge">First Chapter</div>
+        <div>•</div>
+        <div>25 Feb 2023 → 20 Nov 2025</div>
+      </div>
+    </aside>
+
+    <!-- right: content -->
+    <section class="content" aria-labelledby="main-title">
+      <h1 id="main-title" class="title-main">A Thousand Days</h1>
+      <h3 class="subtitle">by Devansh & Roshni</h3>
+
+      <p class="description">
+        A tender, intimate collection of moments following two people across a thousand days —  
+        the small acts, shared mornings, fights and reconciliations that become a life together.
       </p>
-      <a href="Chapter1.pdf" download>💗 Read Chapter One</a>
-      <footer>© 2025 A Thousand Days</footer>
+
+      <div class="info-row" aria-hidden="true">
+        <div><strong>Milestone:</strong> 25 Feb 2023 → 20 Nov 2025</div>
+      </div>
+
+      <div class="cta-row" role="group" aria-label="Actions">
+        <button class="btn btn-primary" id="openReader">📖 Read Online</button>
+        <a class="btn btn-ghost" id="downloadBtn" href="Chapter1.pdf" download>⬇️ Download PDF</a>
+      </div>
+
+      <p style="margin-top:10px; color:var(--muted); font-size:0.95rem;">
+        Thank you for sharing this moment with us — we hope this chapter finds its way to your heart.
+      </p>
+
+      <footer style="margin-top:14px; color:var(--muted); font-size:0.9rem;">
+        © 2025 A Thousand Days
+      </footer>
+    </section>
+  </main>
+
+  <!-- Modal: PDF reader -->
+  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <div class="modal-head">
+        <strong>Reading — Chapter One</strong>
+        <div>
+          <a class="btn" id="downloadInModal" href="Chapter1.pdf" download style="margin-right:8px;">⬇️ Download</a>
+          <button class="close-btn" id="closeModal" aria-label="Close reader">✕</button>
+        </div>
+      </div>
+      <!-- Use iframe to embed PDF; GitHub Pages serves the file so this should work -->
+      <iframe id="pdfFrame" src="Chapter1.pdf"></iframe>
     </div>
   </div>
 
-  
+  <script>
+    // Accessibility: focus management for modal
+    const openReader = document.getElementById('openReader');
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+    const downloadInModal = document.getElementById('downloadInModal');
+
+    function showModal(){
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden','false');
+      // lock scroll
+      document.body.style.overflow='hidden';
+      // focus on close button for accessibility
+      closeModal.focus();
+    }
+
+    function hideModal(){
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+      openReader.focus();
+    }
+
+    openReader.addEventListener('click', showModal);
+    closeModal.addEventListener('click', hideModal);
+
+    // close modal on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) hideModal();
+    });
+
+    // ESC closes modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') hideModal();
+    });
+
+    // Optional: set a cover image if you have one (uncomment and set URL)
+    // document.getElementById('coverImage').style.backgroundImage = "url('cover.jpg')";
+
+    // Small enhancement: smooth appearance for cover title
+    document.addEventListener('DOMContentLoaded', () => {
+      const coverTitle = document.querySelector('.cover-image .title');
+      coverTitle.style.opacity = 0;
+      coverTitle.style.transform = 'translateY(8px)';
+      setTimeout(() => {
+        coverTitle.style.transition = 'opacity 600ms ease, transform 600ms ease';
+        coverTitle.style.opacity = 1;
+        coverTitle.style.transform = 'translateY(0)';
+      }, 150);
+    });
+  </script>
 </body>
+</html>
