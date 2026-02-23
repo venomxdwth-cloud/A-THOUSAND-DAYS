@@ -656,11 +656,6 @@ footer {
 </footer>
 
 <script>
-  // Autoplay with user interaction (browsers require this)
-document.addEventListener('click', function startMusic() {
-  document.getElementById('bgMusic').play();
-  document.removeEventListener('click', startMusic);
-}, { once: true });
 /* ── PETALS ── */
 const pc = document.getElementById('petalCanvas');
 for(let i = 0; i < 18; i++) {
@@ -789,8 +784,5 @@ muteBtn.addEventListener('click', (e) => {
   }
 });
 </script>
-  <audio id="bgMusic" loop>
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
 </body>
 </html>
