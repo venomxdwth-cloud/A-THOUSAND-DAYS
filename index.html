@@ -1,365 +1,736 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A Thousand Days — Chapter One</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>A Thousand Days — Roshni Jaiswal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Sacramento&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --cream: #fdf6ee;
+  --blush: #f9e0e0;
+  --rose:  #e8b4b8;
+  --dusty: #c9868e;
+  --deep:  #8b4a52;
+  --warm:  #5c3038;
+  --text:  #3d1f24;
+  --muted: #a07880;
+  --gold:  #d4a853;
+  --card:  rgba(255,255,255,0.55);
+}
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
 
-  <style>
-    :root{
-      --accent-1: #ff6fb0;
-      --accent-2: #ff9ccf;
-      --muted: #6b6b6b;
-      --card-bg: rgba(255,255,255,0.92);
-      --glass: rgba(255,255,255,0.6);
-    }
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
 
-    html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;color:#222;}
-    body{
-      background: linear-gradient(120deg,#fff5f9 0%, #fff9fb 40%, #f2f8ff 100%);
-      -webkit-font-smoothing:antialiased;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:40px;
-      box-sizing:border-box;
-      overflow-y:auto;
-    }
+/* ── PETALS ── */
+.petal-canvas {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+.petal {
+  position: absolute;
+  top: -40px;
+  width: 12px; height: 16px;
+  background: radial-gradient(ellipse at 40% 30%, #f9d0d5, #e8a0a8);
+  border-radius: 50% 0 50% 0;
+  opacity: 0;
+  animation: fall linear infinite;
+}
+@keyframes fall {
+  0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+  5%   { opacity: .7; }
+  90%  { opacity: .5; }
+  100% { transform: translateY(110vh) rotate(720deg) translateX(80px); opacity: 0; }
+}
 
-    /* Page container (center card) */
-    .wrapper{
-      width:100%;
-      max-width:980px;
-      margin:0 auto;
-      display:grid;
-      grid-template-columns: 420px 1fr;
-      gap:36px;
-      align-items:center;
-      animation: pageEntrance 700ms ease both;
-    }
+/* ── NOISE TEXTURE ── */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .028;
+}
 
-    @keyframes pageEntrance{
-      from{opacity:0; transform:translateY(18px) scale(.995);}
-      to{opacity:1; transform:translateY(0) scale(1);}
-    }
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  display: flex; justify-content:space-between; align-items:center;
+  padding: 1.3rem 5vw;
+  background: rgba(253,246,238,.82);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(232,180,184,.3);
+}
+.nav-brand {
+  font-family: 'Sacramento', cursive;
+  font-size: 1.7rem; color: var(--deep);
+  text-decoration: none; letter-spacing:.02em;
+}
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a {
+  font-size:.78rem; letter-spacing:.15em; text-transform:uppercase;
+  color: var(--muted); text-decoration:none; transition:color .2s;
+}
+.nav-links a:hover { color: var(--deep); }
 
-    /* Left: cover / visual */
-    .cover {
-      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
-      border-radius:18px;
-      padding:26px;
-      box-shadow: 0 10px 30px rgba(17,17,17,0.08);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:18px;
-      backdrop-filter: blur(6px);
-    }
+/* Hamburger */
+.hamburger {
+  display:none; flex-direction:column; gap:5px;
+  background:none; border:none; cursor:pointer; padding:4px;
+}
+.hamburger span {
+  display:block; width:22px; height:1.5px;
+  background:var(--deep); border-radius:2px;
+  transition:transform .3s, opacity .3s;
+}
+.hamburger.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+.mobile-nav {
+  display:none; position:fixed; inset:0; z-index:90;
+  background:rgba(253,246,238,.97); backdrop-filter:blur(20px);
+  flex-direction:column; align-items:center; justify-content:center; gap:2.5rem;
+}
+.mobile-nav.open { display:flex; }
+.mobile-nav a {
+  font-family:'Cormorant Garamond',serif; font-size:2.8rem;
+  font-style:italic; color:var(--deep); text-decoration:none;
+}
 
-    .cover-image{
-      width:100%;
-      max-width:320px;
-      aspect-ratio: 3/4;
-      border-radius:12px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.02)),
-        url(cover.jpg) center/cover no-repeat;
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-      box-shadow: 0 8px 26px rgba(200,100,150,0.12);
-    }
+/* ── HERO ── */
+#hero {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  padding: 120px 8vw 6rem;
+  position: relative; z-index: 1;
+}
 
-    /* placeholder cover styling — replace background-url above with your cover image link if you have one */
-    .cover-image .title {
-      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
-      width:100%;
-      padding:10px;
-      border-radius:8px;
-      color:white;
-      font-family:'Playfair Display',serif;
-      font-size:1.05rem;
-      text-align:center;
-      letter-spacing:0.6px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
-    }
+.hero-left { display:flex; flex-direction:column; justify-content:center; }
 
-    .meta {
-      display:flex;
-      gap:8px;
-      align-items:center;
-      font-size:0.95rem;
-      color:var(--muted);
-    }
+.hero-eyebrow {
+  font-size: .72rem; letter-spacing:.25em; text-transform:uppercase;
+  color: var(--dusty); margin-bottom: 1.8rem;
+  display:flex; align-items:center; gap:.8rem;
+  opacity:0; animation: fadeUp .8s .2s forwards;
+}
+.hero-eyebrow::before { content:''; width:30px; height:1px; background:var(--rose); }
 
-    .meta .badge {
-      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
-      color:white;
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:600;
-      box-shadow: 0 6px 18px rgba(255,120,170,0.14);
-    }
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300; font-style: italic;
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  line-height: .95; letter-spacing:-.01em;
+  color: var(--warm);
+  opacity:0; animation: fadeUp 1s .4s forwards;
+}
+.hero-title .solid {
+  font-style: normal; font-weight: 600;
+  color: var(--deep);
+}
+.hero-title .author-line {
+  display:block; margin-top:.8rem;
+  font-family:'Sacramento', cursive;
+  font-size:clamp(1.8rem,4vw,3.2rem);
+  font-style:normal; font-weight:400;
+  color: var(--dusty); letter-spacing:.05em;
+}
 
-    /* Right: content */
-    .content {
-      background: var(--card-bg);
-      border-radius:18px;
-      padding:34px;
-      box-shadow: 0 10px 30px rgba(17,17,17,0.06);
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-      min-height: 320px;
-    }
+.hero-desc {
+  margin-top: 2.5rem;
+  font-size: clamp(.9rem,1.5vw,1.05rem);
+  color: var(--muted); line-height: 1.95;
+  max-width: 430px; font-style: italic;
+  opacity:0; animation: fadeUp 1s .65s forwards;
+}
 
-    .title-main{
-      font-family:'Playfair Display',serif;
-      font-size:2.1rem;
-      color:#c8216b;
-      margin:0;
-      letter-spacing:0.6px;
-    }
+.hero-dates {
+  margin-top: 2.5rem;
+  display: flex; gap: 1.5rem; flex-wrap:wrap;
+  opacity:0; animation: fadeUp 1s .85s forwards;
+}
+.date-pill {
+  display:flex; flex-direction:column;
+  padding: .9rem 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--rose);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all .3s;
+}
+.date-pill:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(200,120,130,.15); border-color:var(--dusty); }
+.date-pill .dlabel { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--dusty); margin-bottom:.3rem; }
+.date-pill .dval { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; color:var(--deep); }
 
-    .subtitle{
-      margin:0;
-      color:#b83f74;
-      font-style:italic;
-      font-weight:400;
-    }
+.hero-cta {
+  margin-top: 2.5rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap;
+  opacity:0; animation: fadeUp 1s 1.05s forwards;
+}
+.btn-rose {
+  display:inline-block; padding:.85rem 2rem;
+  background: var(--deep);
+  color: var(--cream); text-decoration:none;
+  font-size:.82rem; letter-spacing:.08em; font-weight:500;
+  border-radius:100px; transition:all .25s;
+}
+.btn-rose:hover { background:var(--warm); transform:translateY(-2px); box-shadow:0 12px 30px rgba(140,74,82,.3); }
+.btn-outline {
+  display:inline-block; padding:.85rem 2rem;
+  border: 1px solid var(--rose);
+  color: var(--deep); text-decoration:none;
+  font-size:.82rem; letter-spacing:.08em; font-weight:500;
+  border-radius:100px; transition:all .25s;
+}
+.btn-outline:hover { border-color:var(--dusty); background:rgba(232,180,184,.15); }
 
-    .description{
-      color:#444;
-      line-height:1.7;
-      margin-top:6px;
-      font-size:1rem;
-    }
+/* BOOK MOCKUP */
+.hero-right {
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; animation: fadeUp 1s .5s forwards;
+}
+.book-wrap {
+  position:relative; width:280px;
+  filter: drop-shadow(0 30px 60px rgba(140,74,82,.25));
+  animation: float 5s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-18px) rotate(-1deg); }
+}
+.book-wrap img {
+  width:100%; border-radius:4px 16px 16px 4px;
+  display:block;
+}
+.book-spine {
+  position:absolute; left:-18px; top:2%; bottom:2%;
+  width:18px;
+  background:linear-gradient(to right, var(--warm), var(--deep));
+  border-radius:4px 0 0 4px;
+}
+/* Glow behind book */
+.book-glow {
+  position:absolute; inset:-40px;
+  background:radial-gradient(ellipse at center, rgba(232,180,184,.5), transparent 70%);
+  z-index:-1; border-radius:50%;
+  animation: glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%,100% { opacity:.6; transform:scale(1); }
+  50%      { opacity:1; transform:scale(1.08); }
+}
 
-    .info-row{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-top:8px;
-      color:var(--muted);
-      font-size:0.95rem;
-    }
+/* ── COUNTER STRIP ── */
+#counter {
+  padding:5rem 8vw; position:relative; z-index:1;
+  background:linear-gradient(135deg, #fbecec, var(--cream));
+  border-top:1px solid rgba(232,180,184,.4);
+  border-bottom:1px solid rgba(232,180,184,.4);
+  display:flex; justify-content:center; gap:0;
+  flex-wrap:wrap;
+}
+.count-item {
+  flex:1; min-width:160px; text-align:center;
+  padding:2rem 1rem;
+  border-right:1px solid rgba(232,180,184,.4);
+}
+.count-item:last-child { border-right:none; }
+.count-num {
+  font-family:'Cormorant Garamond',serif; font-weight:600;
+  font-size:clamp(3rem,6vw,5rem); line-height:1;
+  color:var(--deep);
+}
+.count-label {
+  margin-top:.5rem; font-size:.72rem; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--muted);
+}
 
-    .cta-row{
-      margin-top:12px;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
+/* ── STORY SECTION ── */
+#story {
+  padding:9rem 8vw; position:relative; z-index:1;
+  display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center;
+}
+.story-label {
+  font-size:.7rem; letter-spacing:.25em; text-transform:uppercase;
+  color:var(--dusty); margin-bottom:1.5rem;
+  display:flex; align-items:center; gap:.8rem;
+}
+.story-label::after { content:''; width:40px; height:1px; background:var(--rose); }
+.story-h {
+  font-family:'Cormorant Garamond',serif; font-weight:300; font-style:italic;
+  font-size:clamp(2rem,4vw,3.8rem); line-height:1.15;
+  color:var(--warm); margin-bottom:2rem;
+}
+.story-h strong { font-weight:600; font-style:normal; color:var(--deep); }
+.story-p {
+  font-size:.95rem; color:var(--muted); line-height:2.1;
+  margin-bottom:1.4rem;
+}
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:12px 18px;
-      border-radius:12px;
-      font-weight:600;
-      text-decoration:none;
-      cursor:pointer;
-      border:none;
-      transition:transform .18s ease, box-shadow .18s ease;
-    }
+/* Chat preview */
+.chat-preview {
+  background: #fdf0f0;
+  border:1px solid var(--rose); border-radius:20px;
+  padding:2rem; display:flex; flex-direction:column; gap:1rem;
+  box-shadow:0 20px 60px rgba(200,120,130,.12);
+  position:relative;
+}
+.chat-preview::before {
+  content:'DEVANSH'; position:absolute; top:1.2rem; left:1.5rem;
+  font-size:.65rem; letter-spacing:.2em; color:var(--dusty);
+  display:flex; align-items:center; gap:.5rem;
+}
+.chat-preview .dot {
+  display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:#5fca85; box-shadow:0 0 6px #5fca85;
+  margin-right:.4rem;
+}
+.chat-date {
+  text-align:center; font-size:.7rem; letter-spacing:.15em;
+  color:var(--muted); text-transform:uppercase; margin-bottom:.5rem;
+  padding-top:.8rem;
+}
+.msg {
+  display:flex; flex-direction:column; max-width:80%;
+}
+.msg.right { align-self:flex-end; align-items:flex-end; }
+.bubble {
+  padding:.65rem 1.1rem; border-radius:18px;
+  font-size:.88rem; line-height:1.5; font-family:'DM Sans',sans-serif;
+  color:var(--text);
+}
+.msg.left .bubble { background:#fff; border:1px solid var(--rose); border-radius:4px 18px 18px 18px; }
+.msg.right .bubble { background:var(--deep); color:#fff; border-radius:18px 4px 18px 18px; }
+.msg-time { font-size:.65rem; color:var(--muted); margin-top:.25rem; }
 
-    .btn-primary{
-      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
-      color:white;
-      box-shadow: 0 8px 24px rgba(255,110,160,0.18);
-    }
+/* ── TIMELINE ── */
+#timeline {
+  padding:8rem 8vw; position:relative; z-index:1;
+  background:linear-gradient(180deg, var(--cream), #fbeaea);
+}
+.timeline-header { text-align:center; margin-bottom:5rem; }
+.timeline-h {
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300;
+  font-size:clamp(2rem,5vw,4rem); color:var(--warm);
+}
+.timeline-h span { font-style:normal; font-weight:600; color:var(--deep); }
 
-    .btn-ghost{
-      background: transparent;
-      border: 1px solid rgba(200,100,140,0.12);
-      color:#8a2b58;
-    }
+.tline {
+  position:relative; max-width:680px; margin:0 auto;
+  display:flex; flex-direction:column; gap:3rem;
+}
+.tline::before {
+  content:''; position:absolute; left:50%; top:0; bottom:0;
+  width:1px; background:linear-gradient(to bottom, transparent, var(--rose), transparent);
+  transform:translateX(-50%);
+}
+.tevent {
+  display:grid; grid-template-columns:1fr 60px 1fr;
+  align-items:center; gap:1.5rem;
+  opacity:0; transform:translateY(30px);
+  transition:opacity .8s ease, transform .8s ease;
+}
+.tevent.visible { opacity:1; transform:translateY(0); }
+.tevent:nth-child(odd) .tcontent { grid-column:1; text-align:right; }
+.tevent:nth-child(odd) .tempty  { grid-column:3; }
+.tevent:nth-child(even) .tcontent { grid-column:3; text-align:left; }
+.tevent:nth-child(even) .tempty  { grid-column:1; }
+.tdot-wrap { grid-column:2; display:flex; justify-content:center; }
+.tdot {
+  width:14px; height:14px; border-radius:50%;
+  background:var(--deep); border:3px solid var(--cream);
+  box-shadow:0 0 0 3px var(--rose);
+  flex-shrink:0;
+}
+.tdate {
+  font-size:.7rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--dusty); margin-bottom:.4rem;
+}
+.ttitle {
+  font-family:'Cormorant Garamond',serif; font-weight:600;
+  font-size:1.2rem; color:var(--deep); margin-bottom:.3rem;
+}
+.tdesc { font-size:.83rem; color:var(--muted); line-height:1.7; }
 
-    .btn:hover{ transform: translateY(-4px); }
-    .btn:active{ transform: translateY(-1px); }
+/* ── QUOTE ── */
+#quote {
+  padding:8rem 8vw; text-align:center; position:relative; z-index:1;
+}
+.quote-mark {
+  font-family:'Cormorant Garamond',serif; font-size:8rem;
+  line-height:.6; color:var(--rose); display:block; margin-bottom:1rem;
+}
+.quote-text {
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300;
+  font-size:clamp(1.5rem,3.5vw,2.8rem); color:var(--warm);
+  max-width:700px; margin:0 auto 2rem; line-height:1.5;
+}
+.quote-attr {
+  font-family:'Sacramento',cursive; font-size:1.5rem; color:var(--dusty);
+}
 
-    /* subtle ornament hearts in background */
-    .bg-hearts{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:0;
-      overflow:hidden;
-    }
-    .bg-hearts .h{
-      position:absolute;
-      font-size:18px;
-      opacity:0.08;
-      transform:translateY(0);
-      animation: driftUp linear infinite;
-      color:#ff6fa8;
-      filter: blur(.6px);
-    }
-    @keyframes driftUp{
-      from{ transform: translateY(30vh) scale(1); opacity:0.08; }
-      to{ transform: translateY(-30vh) scale(1.1); opacity:0.02; }
-    }
+/* ── FOOTER ── */
+footer {
+  padding:3rem 8vw;
+  border-top:1px solid rgba(232,180,184,.4);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;
+  font-size:.75rem; color:var(--muted);
+  position:relative; z-index:1;
+}
+.footer-hearts { color:var(--rose); letter-spacing:.3em; font-size:1rem; }
 
-    /* modal styles */
-    .modal-backdrop{
-      position:fixed; inset:0; display:none; align-items:center; justify-content:center;
-      background: rgba(10,10,10,0.45); z-index:99999;
-      padding:28px;
-    }
-    .modal{
-      width:100%;
-      max-width:920px;
-      height:80vh;
-      background:white;
-      border-radius:12px;
-      box-shadow: 0 18px 60px rgba(0,0,0,0.25);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-    }
-    .modal .modal-head{
-      display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid #f1f1f1;
-    }
-    .modal iframe{
-      flex:1; border:0; width:100%;
-    }
-    .close-btn{ background:transparent; border:0; font-size:1rem; cursor:pointer; color:#666; }
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.reveal { opacity:0; transform:translateY(36px); transition:opacity .9s ease,transform .9s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
 
-    /* tiny responsive adjustments */
-    @media (max-width:880px){
-      .wrapper{ grid-template-columns:1fr; padding:12px; gap:18px; }
-      .cover-image{ max-width:240px; }
-    }
-  </style>
+/* ── MOBILE ── */
+@media (max-width:900px) {
+  #hero { grid-template-columns:1fr; text-align:center; padding:110px 6vw 5rem; gap:3rem; }
+  .hero-left { order:2; align-items:center; }
+  .hero-right { order:1; }
+  .hero-eyebrow { justify-content:center; }
+  .hero-desc { text-align:left; }
+  #story { grid-template-columns:1fr; gap:3rem; padding:6rem 6vw; }
+  #counter { gap:0; }
+  .count-item { border-right:none; border-bottom:1px solid rgba(232,180,184,.4); }
+  .count-item:last-child { border-bottom:none; }
+  .tline::before { left:20px; }
+  .tevent { grid-template-columns:40px 1fr; }
+  .tevent:nth-child(odd) .tcontent,
+  .tevent:nth-child(even) .tcontent { grid-column:2; text-align:left; }
+  .tevent:nth-child(odd) .tempty,
+  .tevent:nth-child(even) .tempty { display:none; }
+  .tdot-wrap { grid-column:1; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .book-wrap { width:200px; }
+  #quote { padding:5rem 6vw; }
+}
+@media (max-width:480px) {
+  .hero-dates { justify-content:center; }
+  .hero-cta { justify-content:center; }
+  footer { justify-content:center; text-align:center; }
+}
+</style>
 </head>
 <body>
 
-  <div class="bg-hearts" aria-hidden="true">
-    <!-- subtle decorative hearts -->
-    <div class="h" style="left:8%; top:65%; animation-duration:24s;">💗</div>
-    <div class="h" style="left:22%; top:78%; animation-duration:30s;">💗</div>
-    <div class="h" style="left:60%; top:72%; animation-duration:28s;">💗</div>
-    <div class="h" style="left:80%; top:60%; animation-duration:32s;">💗</div>
-    <div class="h" style="left:45%; top:85%; animation-duration:36s;">💗</div>
-  </div>
+<!-- PETALS CONTAINER -->
+<div class="petal-canvas" id="petalCanvas"></div>
 
-  <main class="wrapper" role="main" aria-labelledby="main-title">
-    <!-- left: cover -->
-    <aside class="cover" aria-hidden="false">
-      <div class="cover-image" id="coverImage">
-        <!-- If you have a cover image, set it as background-image via JS or inline style -->
-        <div class="title">A Thousand Days</div>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">A Thousand Days</a>
+  <ul class="nav-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#quote">Chapter 1</a></li>
+  </ul>
+  <button class="hamburger" id="ham"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#story" class="mob-link">Our Story</a>
+  <a href="#timeline" class="mob-link">Timeline</a>
+  <a href="#quote" class="mob-link">Chapter 1</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">A love story in real life</div>
+
+    <h1 class="hero-title">
+      <span class="solid">A Thousand</span><br>
+      Days
+      <span class="author-line">Roshni Jaiswal</span>
+    </h1>
+
+    <p class="hero-desc">
+      "Love doesn't always begin with grand gestures or perfect timing. Sometimes, it starts with a dare on a random social media platform — unexpected, unplanned, and utterly unforgettable."
+    </p>
+
+    <div class="hero-dates">
+      <div class="date-pill">
+        <span class="dlabel">We began</span>
+        <span class="dval">25 Feb 2023</span>
       </div>
-
-      <div class="meta" aria-hidden="true">
-        <div class="badge">First Chapter</div>
-        <div>•</div>
-        <div>25 Feb 2023 → 20 Nov 2025</div>
+      <div class="date-pill">
+        <span class="dlabel">First met</span>
+        <span class="dval">1 April 2025</span>
       </div>
-    </aside>
-
-    <!-- right: content -->
-    <section class="content" aria-labelledby="main-title">
-      <h1 id="main-title" class="title-main">A Thousand Days</h1>
-      <h3 class="subtitle">by Devansh & Roshni</h3>
-
-      <p class="description">
-        A tender, intimate collection of moments following two people across a thousand days —  
-        the small acts, shared mornings, fights and reconciliations that become a life together.
-      </p>
-
-      <div class="info-row" aria-hidden="true">
-        <div><strong>Milestone:</strong> 25 Feb 2023 → 20 Nov 2025</div>
+      <div class="date-pill">
+        <span class="dlabel">Days together</span>
+        <span class="dval" id="daysCount">—</span>
       </div>
+    </div>
 
-      <div class="cta-row" role="group" aria-label="Actions">
-        <button class="btn btn-primary" id="openReader">📖 Read Online</button>
-        <a class="btn btn-ghost" id="downloadBtn" href="Chapter1.pdf" download>⬇️ Download PDF</a>
-      </div>
-
-      <p style="margin-top:10px; color:var(--muted); font-size:0.95rem;">
-        Thank you for sharing this moment with us — we hope this chapter finds its way to your heart.
-      </p>
-
-      <footer style="margin-top:14px; color:var(--muted); font-size:0.9rem;">
-        © 2025 A Thousand Days
-      </footer>
-    </section>
-  </main>
-
-  <!-- Modal: PDF reader -->
-  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <div class="modal-head">
-        <strong>Reading — Chapter One</strong>
-        <div>
-          <a class="btn" id="downloadInModal" href="Chapter1.pdf" download style="margin-right:8px;">⬇️ Download</a>
-          <button class="close-btn" id="closeModal" aria-label="Close reader">✕</button>
-        </div>
-      </div>
-      <!-- Use iframe to embed PDF; GitHub Pages serves the file so this should work -->
-      <iframe id="pdfFrame" src="Chapter1.pdf"></iframe>
+    <div class="hero-cta">
+      <a href="#story" class="btn-rose">Read our story →</a>
+      <a href="#timeline" class="btn-outline">See timeline</a>
     </div>
   </div>
 
-  <script>
-    // Accessibility: focus management for modal
-    const openReader = document.getElementById('openReader');
-    const modal = document.getElementById('modal');
-    const closeModal = document.getElementById('closeModal');
-    const downloadInModal = document.getElementById('downloadInModal');
+  <div class="hero-right">
+    <div class="book-wrap">
+      <div class="book-glow"></div>
+      <div class="book-spine"></div>
+      <!-- Book cover using CSS art since we can't embed the PDF image -->
+      <div style="
+        background: linear-gradient(160deg, #f9d8e0 0%, #f0b8c0 40%, #e89aaa 100%);
+        border-radius:4px 16px 16px 4px;
+        padding:3rem 2rem;
+        min-height:420px;
+        display:flex; flex-direction:column;
+        justify-content:space-between;
+        align-items:center;
+        text-align:center;
+        position:relative; overflow:hidden;
+      ">
+        <!-- Watercolor blobs -->
+        <div style="position:absolute;top:-20px;right:-20px;width:180px;height:180px;background:radial-gradient(circle,rgba(255,200,210,.6),transparent);border-radius:50%;"></div>
+        <div style="position:absolute;bottom:60px;left:-30px;width:150px;height:150px;background:radial-gradient(circle,rgba(255,180,190,.5),transparent);border-radius:50%;"></div>
 
-    function showModal(){
-      modal.style.display = 'flex';
-      modal.setAttribute('aria-hidden','false');
-      // lock scroll
-      document.body.style.overflow='hidden';
-      // focus on close button for accessibility
-      closeModal.focus();
+        <div style="position:relative;z-index:1;width:100%">
+          <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:1rem;color:rgba(100,40,50,.6);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem">A</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:2.4rem;line-height:1;color:#5c2030;letter-spacing:-.01em">THOUSAND<br>DAYS</div>
+        </div>
+
+        <!-- Couple illustration placeholder — soft hearts -->
+        <div style="position:relative;z-index:1;font-size:5rem;line-height:1;filter:drop-shadow(0 4px 12px rgba(200,80,100,.2))">🌸</div>
+
+        <div style="position:relative;z-index:1;border-top:1px solid rgba(200,100,120,.3);padding-top:1.2rem;width:100%">
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.1rem;color:#5c2030;letter-spacing:.05em;">ROSHNI JAISWAL</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:.72rem;color:rgba(100,40,50,.55);letter-spacing:.1em;margin-top:.3rem">Designed by Devansh Jaiswal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTER STRIP -->
+<div id="counter">
+  <div class="count-item reveal">
+    <div class="count-num" id="cDays">—</div>
+    <div class="count-label">Days of Love</div>
+  </div>
+  <div class="count-item reveal">
+    <div class="count-num" id="cMonths">—</div>
+    <div class="count-label">Months Together</div>
+  </div>
+  <div class="count-item reveal">
+    <div class="count-num">1</div>
+    <div class="count-label">First Meeting</div>
+  </div>
+  <div class="count-item reveal">
+    <div class="count-num">∞</div>
+    <div class="count-label">More to come</div>
+  </div>
+</div>
+
+<!-- STORY SECTION -->
+<section id="story">
+  <div class="reveal">
+    <div class="story-label">01 — The beginning</div>
+    <h2 class="story-h">It started with<br>a <strong>dare.</strong></h2>
+    <p class="story-p">Two years of digital connection — late-night conversations, shared dreams, and messages that stretched across time zones and sleepless nights. What began as a playful challenge became something neither of us expected.</p>
+    <p class="story-p">This book is Roshni's way of honoring every moment — the doubts, the distances, the tiny joys, and the milestones that made their story worth telling.</p>
+    <p class="story-p" style="font-style:italic;color:var(--dusty)">Designed with love by Devansh Jaiswal.</p>
+  </div>
+
+  <div class="chat-preview reveal">
+    <div class="chat-date"><span class="dot"></span> 25 February 2023</div>
+    <div class="msg right">
+      <div class="bubble">Hey!</div>
+      <div class="msg-time">10:42 PM</div>
+    </div>
+    <div class="msg left">
+      <div class="bubble">Hi :)</div>
+      <div class="msg-time">10:43 PM</div>
+    </div>
+    <div class="msg right">
+      <div class="bubble">Forgot me?</div>
+      <div class="msg-time">10:43 PM</div>
+    </div>
+    <div class="msg left">
+      <div class="bubble">NO way</div>
+      <div class="msg-time">10:44 PM</div>
+    </div>
+    <div class="msg right">
+      <div class="bubble">May i ask smtg?</div>
+      <div class="msg-time">10:45 PM</div>
+    </div>
+    <div class="msg left">
+      <div class="bubble">sure~</div>
+      <div class="msg-time">10:45 PM</div>
+    </div>
+    <div class="msg right">
+      <div class="bubble">Will you be my bf?</div>
+      <div class="msg-time">10:46 PM</div>
+    </div>
+    <div class="msg left">
+      <div class="bubble" style="background:var(--rose);border:none;color:var(--warm)">...</div>
+      <div class="msg-time">10:47 PM</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="timeline-header reveal">
+    <div class="story-label" style="justify-content:center;margin-bottom:1.5rem">02 — Timeline</div>
+    <h2 class="timeline-h">Every chapter of <span>us.</span></h2>
+  </div>
+
+  <div class="tline">
+    <div class="tevent">
+      <div class="tcontent">
+        <div class="tdate">25 Feb 2023</div>
+        <div class="ttitle">The Dare 💬</div>
+        <div class="tdesc">A random message. A playful ask. The beginning of everything.</div>
+      </div>
+      <div class="tdot-wrap"><div class="tdot"></div></div>
+      <div class="tempty"></div>
+    </div>
+
+    <div class="tevent">
+      <div class="tempty"></div>
+      <div class="tdot-wrap"><div class="tdot"></div></div>
+      <div class="tcontent">
+        <div class="tdate">2023 — 2025</div>
+        <div class="ttitle">Two Years Digital 🌙</div>
+        <div class="tdesc">Late nights, long calls, shared playlists, and a love that grew through screens.</div>
+      </div>
+    </div>
+
+    <div class="tevent">
+      <div class="tcontent">
+        <div class="tdate">1 April 2025</div>
+        <div class="ttitle">First Meeting 🌸</div>
+        <div class="tdesc">The day the screen disappeared. Real eyes, real smiles, real everything.</div>
+      </div>
+      <div class="tdot-wrap"><div class="tdot" style="background:var(--gold);box-shadow:0 0 0 3px rgba(212,168,83,.3)"></div></div>
+      <div class="tempty"></div>
+    </div>
+
+    <div class="tevent">
+      <div class="tempty"></div>
+      <div class="tdot-wrap"><div class="tdot" style="background:var(--rose)"></div></div>
+      <div class="tcontent">
+        <div class="tdate">Still writing...</div>
+        <div class="ttitle">A Thousand Days & Beyond 💕</div>
+        <div class="tdesc">The story isn't over. It's just getting to the good part.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section id="quote">
+  <div class="reveal">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">
+      I hope as you read this, you feel what I felt: the magic of falling in love when you least expect it.
+    </p>
+    <span class="quote-attr">— Roshni Jaiswal</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--deep);margin-bottom:.3rem">A Thousand Days</div>
+    <div>Written by Roshni Jaiswal · Designed by Devansh Jaiswal · © 2026</div>
+  </div>
+  <div class="footer-hearts">♡ ♡ ♡</div>
+</footer>
+
+<script>
+/* ── PETALS ── */
+const pc = document.getElementById('petalCanvas');
+for(let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  const size = 8 + Math.random()*10;
+  p.style.cssText = `
+    left:${Math.random()*100}%;
+    width:${size}px; height:${size*1.4}px;
+    animation-duration:${8 + Math.random()*12}s;
+    animation-delay:${Math.random()*15}s;
+    opacity:0;
+    transform:rotate(${Math.random()*360}deg);
+    background:radial-gradient(ellipse at 40% 30%, ${
+      ['#fdd0d5','#f9b8c2','#f4a0b0','#efc8d0'][Math.floor(Math.random()*4)]
+    }, rgba(240,160,170,.4));
+  `;
+  pc.appendChild(p);
+}
+
+/* ── LIVE COUNTER ── */
+function calcDays() {
+  const start = new Date('2023-02-25');
+  const now = new Date();
+  const diff = Math.floor((now - start) / (1000*60*60*24));
+  const months = Math.floor(diff / 30);
+  document.getElementById('daysCount').textContent = diff.toLocaleString();
+  document.getElementById('cDays').textContent = diff.toLocaleString();
+  document.getElementById('cMonths').textContent = months;
+}
+calcDays();
+
+/* ── HAMBURGER ── */
+const ham = document.getElementById('ham');
+const mNav = document.getElementById('mobileNav');
+ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
+  mNav.classList.toggle('open');
+  document.body.style.overflow = mNav.classList.contains('open') ? 'hidden' : '';
+});
+document.querySelectorAll('.mob-link').forEach(l => {
+  l.addEventListener('click', () => {
+    ham.classList.remove('open');
+    mNav.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ── SCROLL REVEAL ── */
+document.querySelectorAll('.reveal, .tevent').forEach(el => {
+  new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold:.15}).observe(el);
+});
+
+/* ── COUNT UP ANIMATION ── */
+function animateCount(el, target) {
+  let current = 0;
+  const step = Math.ceil(target / 60);
+  const t = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current.toLocaleString();
+    if(current >= target) clearInterval(t);
+  }, 20);
+}
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const start = new Date('2023-02-25');
+      const diff = Math.floor((new Date() - start) / (1000*60*60*24));
+      animateCount(document.getElementById('cDays'), diff);
+      animateCount(document.getElementById('cMonths'), Math.floor(diff/30));
     }
-
-    function hideModal(){
-      modal.style.display = 'none';
-      modal.setAttribute('aria-hidden','true');
-      document.body.style.overflow='';
-      openReader.focus();
-    }
-
-    openReader.addEventListener('click', showModal);
-    closeModal.addEventListener('click', hideModal);
-
-    // close modal on backdrop click
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) hideModal();
-    });
-
-    // ESC closes modal
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.style.display === 'flex') hideModal();
-    });
-
-    // Optional: set a cover image if you have one (uncomment and set URL)
-    // document.getElementById('coverImage').style.backgroundImage = "url('cover.jpg')";
-
-    // Small enhancement: smooth appearance for cover title
-    document.addEventListener('DOMContentLoaded', () => {
-      const coverTitle = document.querySelector('.cover-image .title');
-      coverTitle.style.opacity = 0;
-      coverTitle.style.transform = 'translateY(8px)';
-      setTimeout(() => {
-        coverTitle.style.transition = 'opacity 600ms ease, transform 600ms ease';
-        coverTitle.style.opacity = 1;
-        coverTitle.style.transform = 'translateY(0)';
-      }, 150);
-    });
-  </script>
+  });
+}, {threshold:.3}).observe(document.getElementById('counter'));
+</script>
 </body>
 </html>
